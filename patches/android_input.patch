@@ -1,0 +1,28 @@
+--- a/input/drivers/android_input.c
++++ b/input/drivers/android_input.c
+@@ -1022,6 +1022,10 @@
+       *handled = 0;
+ }
+
++#ifdef HAVE_RICOTTA_IGM
++extern int ricotta_bridge_intercept_key(int keycode, int action);
++#endif
++
+ static INLINE void android_input_poll_event_type_key(
+       struct android_app *android_app,
+       AInputEvent *event, int port, int keycode, int source,
+@@ -1029,6 +1033,14 @@
+ {
+    uint8_t *buf = android_key_state[port];
+    int action   = AKeyEvent_getAction(event);
++
++#ifdef HAVE_RICOTTA_IGM
++   if (ricotta_bridge_intercept_key(keycode, action))
++   {
++      *handled = 1;
++      return;
++   }
++#endif
+    int keysym   = keycode;
+
+    /* Handle 'duplicate' inputs that correspond

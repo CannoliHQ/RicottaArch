@@ -1,0 +1,23 @@
+--- a/runloop.c
++++ b/runloop.c
+@@ -6008,6 +6008,12 @@
+
+       if (pressed && !old_pressed)
+       {
++#ifdef HAVE_RICOTTA_IGM
++         {
++            extern void ricotta_bridge_on_menu_toggle(void);
++            ricotta_bridge_on_menu_toggle();
++         }
++#else
+          bool core_is_running    = runloop_st->flags & RUNLOOP_FLAG_CORE_RUNNING;
+
+          if (menu_st->flags & MENU_ST_FLAG_ALIVE)
+@@ -6017,6 +6023,7 @@
+          }
+          else
+             retroarch_menu_running();
++#endif
+       }
+       /* Initial menu toggle on startup */
+       else if (core_type_is_dummy && !(menu_st->flags & MENU_ST_FLAG_ALIVE))
