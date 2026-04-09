@@ -24,14 +24,14 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Checkout cannoli-launcher
+      - name: Checkout cannoli
         uses: actions/checkout@v4
         with:
-          repository: CannoliHQ/cannoli-launcher
-          path: cannoli-launcher
+          repository: CannoliHQ/cannoli
+          path: cannoli
 
-      - name: Symlink cannoli-launcher for Gradle
-        run: ln -s "$GITHUB_WORKSPACE/cannoli-launcher" "$GITHUB_WORKSPACE/../cannoli-launcher"
+      - name: Symlink cannoli for Gradle
+        run: ln -s "$GITHUB_WORKSPACE/cannoli" "$GITHUB_WORKSPACE/../cannoli-launcher"
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
