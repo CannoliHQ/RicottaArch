@@ -12,44 +12,24 @@ val phoenixCommonDir = file("$retroarchDir/pkg/android/phoenix-common")
 
 android {
     namespace = "com.retroarch"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "26.1.10909125"
-
-    flavorDimensions += "variant"
 
     defaultConfig {
         applicationId = "dev.cannoli.ricotta"
         minSdk = 24
-        targetSdk = 28
+        targetSdk = 36
         versionCode = (System.currentTimeMillis() / 1000).toInt()
-        missingDimensionStrategy("variant", "normal")
+
+        resValue("string", "app_name", "RicottaArch")
+        buildConfigField("boolean", "PLAY_STORE_BUILD", "false")
+
+        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
 
         externalNativeBuild {
             ndkBuild {
                 arguments("-j${Runtime.getRuntime().availableProcessors()}")
             }
-        }
-    }
-
-    productFlavors {
-        create("normal") {
-            resValue("string", "app_name", "RicottaArch")
-            buildConfigField("boolean", "PLAY_STORE_BUILD", "false")
-            dimension = "variant"
-        }
-        create("aarch64") {
-            applicationIdSuffix = ".aarch64"
-            resValue("string", "app_name", "RicottaArch (AArch64)")
-            buildConfigField("boolean", "PLAY_STORE_BUILD", "false")
-            dimension = "variant"
-            ndk { abiFilters += listOf("arm64-v8a", "x86_64") }
-        }
-        create("ra32") {
-            applicationIdSuffix = ".ra32"
-            resValue("string", "app_name", "RicottaArch (32-bit)")
-            buildConfigField("boolean", "PLAY_STORE_BUILD", "false")
-            dimension = "variant"
-            ndk { abiFilters += listOf("armeabi-v7a", "x86") }
         }
     }
 
@@ -61,21 +41,12 @@ android {
                 "$phoenixDir/src",
                 "$phoenixCommonDir/src",
                 "$retroarchDir/libretro-common/vfs/saf/src",
+                "$retroarchDir/pkg/android/play-core-stub",
                 "$ricottaDir/src"
             )
             jniLibs.srcDir("$phoenixCommonDir/libs")
             jni.setSrcDirs(emptyList<File>())
             res.srcDirs("$phoenixDir/res", "$phoenixCommonDir/res")
-        }
-        getByName("normal") {
-            java.srcDirs("$retroarchDir/pkg/android/play-core-stub")
-        }
-        getByName("aarch64") {
-            java.srcDirs("$retroarchDir/pkg/android/play-core-stub")
-            res.srcDirs("$phoenixDir/res", "$phoenixDir/res64")
-        }
-        getByName("ra32") {
-            java.srcDirs("$retroarchDir/pkg/android/play-core-stub")
         }
     }
 
