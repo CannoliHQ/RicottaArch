@@ -34,11 +34,17 @@ echo "Copied ricotta_bridge.c"
 # Ensure Android.mk includes our bridge file and define
 ANDROID_MK="$RA_DIR/pkg/android/phoenix-common/jni/Android.mk"
 if ! grep -q "HAVE_RICOTTA_IGM" "$ANDROID_MK"; then
-    sed -i '' 's|griffin/griffin_cpp.cpp|griffin/griffin_cpp.cpp \\\
-							ricotta_bridge.c|' "$ANDROID_MK"
-    sed -i '' '/^LOCAL_MODULE := retroarch-activity/a\
+    if [[ "$OSTYPE" == darwin* ]]; then
+        sed -i '' 's|griffin/griffin_cpp.cpp|griffin/griffin_cpp.cpp \\\
+								ricotta_bridge.c|' "$ANDROID_MK"
+        sed -i '' '/^LOCAL_MODULE := retroarch-activity/a\
 \
 DEFINES += -DHAVE_RICOTTA_IGM' "$ANDROID_MK"
+    else
+        sed -i 's|griffin/griffin_cpp.cpp|griffin/griffin_cpp.cpp \\\
+								ricotta_bridge.c|' "$ANDROID_MK"
+        sed -i '/^LOCAL_MODULE := retroarch-activity/a\\nDEFINES += -DHAVE_RICOTTA_IGM' "$ANDROID_MK"
+    fi
     echo "Updated Android.mk"
 else
     echo "Android.mk already configured."

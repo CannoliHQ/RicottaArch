@@ -16,18 +16,8 @@ RicottaArch
 
 ---
 
-RicottaArch is a fork of RetroArch intended for use with [Cannoli](https://cannoli.dev).
+RicottaArch is a fork of [RetroArch](https://www.retroarch.com) intended for use with [Cannoli](https://cannoli.dev).
 
-The purpose of this fork is to add in a custom menu driver that replicates Cannoli's In-Game Menu.
+The purpose of this fork is to inject the Cannoli IGM into the RetroArch Android APK.
 
-The menu driver, aptly named `cannoli`, uses the default menu driver `Ozone` for all UI interactions. It only deviates
-to draw a custom IGM when the menu button is pressed.
-
-## Current Additional Features
-
-RicottaArch currently also has two additional features, both have been submitted as a PR to RetroArch.
-
-- [Add 'Menu Toggle Without Hotkey Enable' option](https://github.com/libretro/RetroArch/pull/18785)
-- [Query Installed Cores on Android](https://github.com/libretro/RetroArch/pull/18870)
-
-That's really it. It's RetroArch with a dumb name so you can install it alongside an official install.
+That's really it. It's RetroArch with a dumb name.
