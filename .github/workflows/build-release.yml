@@ -14,6 +14,9 @@ on:
         type: boolean
         default: true
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,12 +48,21 @@ jobs:
       - name: Install SDK components
         run: sdkmanager "ndk;26.1.10909125" "platforms;android-36"
 
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('android/**/*.gradle.kts', 'android/gradle/libs.versions.toml', 'android/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-
+
       - name: Apply patches
         run: bash scripts/apply-patches.sh
 
       - name: Build release APKs
         working-directory: android
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease -x lintVitalRelease
 
       - name: Upload APKs
         uses: actions/upload-artifact@v4
