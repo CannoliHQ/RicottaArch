@@ -22,6 +22,7 @@ android {
         minSdk = 24
         targetSdk = 28
         versionCode = (System.currentTimeMillis() / 1000).toInt()
+        missingDimensionStrategy("variant", "normal")
 
         externalNativeBuild {
             ndkBuild {
