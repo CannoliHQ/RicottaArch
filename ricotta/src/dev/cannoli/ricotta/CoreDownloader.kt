@@ -21,7 +21,9 @@ object CoreDownloader {
         val dataDir = File(context.applicationInfo.dataDir)
         val coresDir = File(dataDir, "cores").apply { mkdirs() }
         val infoDir = File(dataDir, "info").apply { mkdirs() }
-        val soName = "${coreName}_libretro_android.so"
+        // Accept either "snes9x" or "snes9x_libretro" — buildbot names always end in "_libretro_android.so".
+        val baseName = coreName.removeSuffix("_libretro")
+        val soName = "${baseName}_libretro_android.so"
         val soUrl = "$BUILDBOT/$abi/$soName.zip"
 
         return try {
