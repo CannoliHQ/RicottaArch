@@ -22,11 +22,11 @@ import dev.cannoli.igm.IGMController
 import dev.cannoli.igm.IGMScreen
 import dev.cannoli.igm.InGameMenu
 import dev.cannoli.igm.InGameMenuOptions
-import dev.cannoli.igm.ui.theme.CannoliColors
-import dev.cannoli.igm.ui.theme.CannoliTheme
-import dev.cannoli.igm.ui.theme.LocalCannoliColors
-import dev.cannoli.igm.ui.theme.hexToColor
-import dev.cannoli.igm.ui.theme.initFonts
+import dev.cannoli.ui.theme.CannoliColors
+import dev.cannoli.ui.theme.CannoliTheme
+import dev.cannoli.ui.theme.LocalCannoliColors
+import dev.cannoli.ui.theme.hexToColor
+import dev.cannoli.ui.theme.initFonts
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import dev.cannoli.ricotta.RicottaArchBridge
@@ -191,35 +191,41 @@ class IGMOverlay(
 
     @Composable
     private fun IGMContent() {
-        val highlightColor = colorHighlight?.let { hexToColor(it) } ?: Color.White
         val colors = CannoliColors(
-            highlight = highlightColor,
+            highlight = colorHighlight?.let { hexToColor(it) } ?: Color.White,
             text = colorText?.let { hexToColor(it) } ?: Color.White,
             highlightText = colorHighlightText?.let { hexToColor(it) } ?: Color.Black,
             accent = colorAccent?.let { hexToColor(it) } ?: Color.White,
             title = colorTitle?.let { hexToColor(it) } ?: Color.White
         )
         CannoliTheme {
-        CompositionLocalProvider(LocalCannoliColors provides colors) {
-            val screen = controller.currentScreen
-            if (screen != null) {
-                when (screen) {
-                    is IGMScreen.Menu -> InGameMenu(
-                        gameTitle = controller.gameTitle,
-                        menuOptions = controller.buildMenuOptions(),
-                        selectedIndex = screen.selectedIndex,
-                        selectedSlot = controller.currentSlot,
-                        slotThumbnail = controller.slotThumbnail.value,
-                        slotExists = controller.slotExists.value,
-                        slotOccupied = controller.slotOccupied.value,
-                        undoLabel = controller.undoLabel.value
-                    )
-                    else -> {
-                        // Other IGM screens will be implemented later
+            CompositionLocalProvider(LocalCannoliColors provides colors) {
+                val screen = controller.currentScreen
+                if (screen != null) {
+                    when (screen) {
+                        is IGMScreen.Menu -> InGameMenu(
+                            gameTitle = controller.gameTitle,
+                            menuOptions = controller.buildMenuOptions(),
+                            selectedIndex = screen.selectedIndex,
+                            selectedSlot = controller.currentSlot,
+                            slotThumbnail = controller.slotThumbnail.value,
+                            slotExists = controller.slotExists.value,
+                            slotOccupied = controller.slotOccupied.value,
+                            undoLabel = controller.undoLabel.value,
+                            backLabel = "Back",
+                            deleteLabel = "Delete",
+                            slotLabel = "Slot",
+                            saveLabel = "Save",
+                            loadLabel = "Load",
+                            discLabel = "Disc",
+                            selectLabel = "Select"
+                        )
+                        else -> {
+                            // Other IGM screens will be implemented later
+                        }
                     }
                 }
             }
-        }
         }
     }
 }

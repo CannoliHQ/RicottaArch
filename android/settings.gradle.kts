@@ -25,3 +25,6 @@ rootProject.name = "RicottaArch"
 
 include(":cannoli-igm")
 project(":cannoli-igm").projectDir = file("../../cannoli-launcher/cannoli-igm")
+
+include(":cannoli-ui")
+project(":cannoli-ui").projectDir = file("../../cannoli-launcher/cannoli-ui")

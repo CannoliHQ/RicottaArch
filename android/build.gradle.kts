@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.cannoli.ricotta"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 36
         versionCode = (System.currentTimeMillis() / 1000).toInt()
 
@@ -78,10 +78,7 @@ android {
     }
 }
 
-// Exclude RetroArch's RetroActivityFuture — we replace it with our own
-tasks.withType<JavaCompile>().configureEach {
-    exclude("com/retroarch/browser/retroactivity/RetroActivityFuture.java")
-}
+
 
 dependencies {
     implementation(project(":cannoli-igm"))

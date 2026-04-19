@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:node="remove"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:node="remove"/>
+
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+
+    <application>
+        <activity
+            android:name="com.retroarch.browser.mainmenu.MainMenuActivity"
+            tools:node="merge">
+            <intent-filter tools:node="removeAll"/>
+        </activity>
+
+        <activity
+            android:name="dev.cannoli.ricotta.RicottaMainActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="dev.cannoli.ricotta.CoreDownloadReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="dev.cannoli.ricotta.DOWNLOAD_CORE" />
+                <action android:name="dev.cannoli.ricotta.REFRESH_CORE_INFO" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>
